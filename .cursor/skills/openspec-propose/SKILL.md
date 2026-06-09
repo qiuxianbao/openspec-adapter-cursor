@@ -29,7 +29,7 @@ When ready to implement, run /opsx:apply
    Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
    > "What change do you want to work on? Describe what you want to build or fix."
 
-   From their description, derive a kebab-case name (e.g., "add user authentication" → `add-user-auth`).
+   From their description, derive a name using the format: {add/delete/update}-{功能}-{当前日期} (e.g., "add-mq-send-20260608").
 
    **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
 
