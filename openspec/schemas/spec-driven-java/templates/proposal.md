@@ -10,6 +10,11 @@
 - **In Scope (本次包含)**：明确本次实施的功能点。
 - **Out of Scope (本次不含)**：明确本次不做的事情，避免需求蔓延。
 
+### 非功能性需求 (NFR)
+- **性能要求**：[如 QPS 预估、p99 延迟要求等]
+- **可靠性要求**：[如 可用性 SLA、数据一致性级别（强一致 vs 最终一致）等]
+- **安全与合规**：[如 敏感数据脱敏、审计日志等]
+
 ### 新功能变更
 <!-- Capabilities being introduced. Replace <name> with kebab-case identifier (e.g., user-auth, data-export, api-rate-limiting). Each creates specs/<name>/spec.md -->
 
