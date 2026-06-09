@@ -1,0 +1,8 @@
+---
+description: 用户环境与执行约束
+globs: "*"
+alwaysApply: true
+---
+# 用户环境与执行约束
+- 操作系统：Windows (PowerShell)
+- Python 执行约束：任何时候需要执行 Python 脚本，**绝对禁止**使用 `python` 命令，**必须**使用 `uv run python` 以保证环境隔离。
