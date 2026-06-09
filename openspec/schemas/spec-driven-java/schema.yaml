@@ -7,136 +7,62 @@ artifacts:
     description: Initial proposal document outlining the change
     template: proposal.md
     instruction: >
-      Create the proposal document that establishes WHY this change is needed.
+      创建变更提案文档。**文档结构 MUST 严格遵循 template（proposal.md）**，不得增删
+      template 中的 ## 章节标题，不得改用 Why/What Changes/Capabilities/Impact 等
+      英文 OpenSpec 默认章节。
 
 
-      Sections:
+      按 template 各节填写内容约束：
 
-      - **Why**: 1-2 sentences on the problem or opportunity. What problem does
-      this solve? Why now?
+      - **## 1.变更提案(Why)**：1-2 段说明问题或机会；填写「业务背景与价值」「预期收益」；
+        聚焦 why，不写实现细节（how 属于 design.md）。
 
-      - **What Changes**: Bullet list of changes. Be specific about new
-      capabilities, modifications, or removals. Mark breaking changes with
-      **BREAKING**.
+      - **## 2.变更范围 (Scope)**：分别列出 In Scope / Out Scope；
+        在「### 新功能变更」下用 kebab-case 列出每个新 capability（每个对应
+        `specs/<name>/spec.md`）；在「### 已有功能变更」下列出需 delta spec 的
+        已有 capability（查 `openspec/specs/`），无则写「无」；**BREAKING** 变更须
+        在 In Scope 中显式标注。
 
-      - **Capabilities**: Identify which specs will be created or modified:
-        - **New Capabilities**: List capabilities being introduced. Each becomes a new `specs/<name>/spec.md`. Use kebab-case names (e.g., `user-auth`, `data-export`).
-        - **Modified Capabilities**: List existing capabilities whose REQUIREMENTS are changing. Only include if spec-level behavior changes (not just implementation details). Each needs a delta spec file. Check `openspec/specs/` for existing spec names. Leave empty if no requirement changes.
-      - **Impact**: Affected code, APIs, dependencies, or systems.
-
-
-      IMPORTANT: The Capabilities section is critical. It creates the contract
-      between
-
-      proposal and specs phases. Research existing specs before filling this in.
-
-      Each capability listed here will need a corresponding spec file.
+      - **## 3.系统影响点**：填写依赖模块与兼容性说明。
 
 
-      Keep it concise (1-2 pages). Focus on the "why" not the "how" -
-
-      implementation details belong in design.md.
-
-
-      This is the foundation - specs, design, and tasks all build on this.
+      Capabilities 列表是 proposal 与 specs 的契约：列出的每个 capability 在 specs
+      阶段 MUST 有对应 spec 文件。全文控制在 1-2 页。
     requires: []
   - id: specs
     generates: specs/**/*.md
     description: Detailed specifications for the change
     template: spec.md
     instruction: >
-      Create specification files that define WHAT the system should do.
+      创建规格文档，定义系统 SHOULD 做什么。**每个 capability 一个文件**，路径为
+      `specs/<capability>/spec.md`（capability 名与 proposal「新功能变更/已有功能
+      变更」一致）。
 
 
-      Create one spec file per capability listed in the proposal's Capabilities
-      section.
-
-      - New capabilities: use the exact kebab-case name from the proposal
-      (specs/<capability>/spec.md).
-
-      - Modified capabilities: use the existing spec folder name from
-      openspec/specs/<capability>/ when creating the delta spec at
-      specs/<capability>/spec.md.
+      **文档结构 MUST 严格遵循 template（spec.md）**，不得用 `## ADDED Requirements`、
+      `### Requirement:`、`#### Scenario:` 等 OpenSpec 默认格式替代 template 主结构。
 
 
-      Delta operations (use ## headers):
+      按 template 各节填写内容约束：
 
-      - **ADDED Requirements**: New capabilities
+      - **### 需求**: 填写 capability 中文名称。
 
-      - **MODIFIED Requirements**: Changed behavior - MUST include full updated
-      content
+      - **#### 1. 目标与范围**：一句话描述 + 复杂度标记（🟢/🟡/🔴）；
+        在 **##### 1.1 Delta 增删改规范** 中标注变更类型（新增/修改/删除/废弃），
+        修改已有 spec 时 MUST 写完整更新内容（不可只写 diff 片段）；
+        删除/废弃 MUST 含 Reason 与 Migration；
+        在 **##### 1.2 不做清单** 中列出明确排除项。
 
-      - **REMOVED Requirements**: Deprecated features - MUST include **Reason**
-      and **Migration**
+      - **#### 2. 业务场景定义 (What)**：描述 Happy Path 与 Edge Cases；
+        每个场景用 **##### [场景名]**，含输入、输出、异常处理。
 
-      - **RENAMED Requirements**: Name changes only - use FROM:/TO: format
-
-
-      Format requirements:
-
-      - Each requirement: `### Requirement: <name>` followed by description
-
-      - Use SHALL/MUST for normative requirements (avoid should/may)
-
-      - Each scenario: `#### Scenario: <name>` with WHEN/THEN format
-
-      - **CRITICAL**: Scenarios MUST use exactly 4 hashtags (`####`). Using 3
-      hashtags or bullets will fail silently.
-
-      - Every requirement MUST have at least one scenario.
+      - **#### 3. 验收标准 (Acceptance Criteria)**：每条 MUST 使用 EARS 语法
+       （When/While … the system shall …）； normative 用语用 SHALL/MUST；
+        每条验收标准对应一个可测试场景，至少覆盖 Happy Path 与关键异常分支。
 
 
-      MODIFIED requirements workflow:
-
-      1. Locate the existing requirement in openspec/specs/<capability>/spec.md
-
-      2. Copy the ENTIRE requirement block (from `### Requirement:` through all
-      scenarios)
-
-      3. Paste under `## MODIFIED Requirements` and edit to reflect new behavior
-
-      4. Ensure header text matches exactly (whitespace-insensitive)
-
-
-      Common pitfall: Using MODIFIED with partial content loses detail at
-      archive time.
-
-      If adding new concerns without changing existing behavior, use ADDED
-      instead.
-
-
-      Example:
-
-      ```
-
-      ## ADDED Requirements
-
-
-      ### Requirement: User can export data
-
-      The system SHALL allow users to export their data in CSV format.
-
-
-      #### Scenario: Successful export
-
-      - **WHEN** user clicks "Export" button
-
-      - **THEN** system downloads a CSV file with all user data
-
-
-      ## REMOVED Requirements
-
-
-      ### Requirement: Legacy export
-
-      **Reason**: Replaced by new export system
-
-      **Migration**: Use new export endpoint at /api/v2/export
-
-      ```
-
-
-      Specs should be testable - each scenario is a potential test case.
+      Archive 兼容：Delta 信息写在「##### 1.1 Delta 增删改规范」内，勿另起
+      `## ADDED Requirements` 顶层章节。
     requires:
       - proposal
   - id: design
@@ -144,44 +70,30 @@ artifacts:
     description: Technical design document with implementation details
     template: design.md
     instruction: >
-      Create the design document that explains HOW to implement the change.
+      创建技术设计文档，说明 HOW 实现 specs。**文档结构 MUST 严格遵循 template
+      （design.md）**，不得增删 template 中的 ## 章节，不得改用 Context/Goals/
+      Decisions/Risks 等英文 OpenSpec 默认章节替代 template 主结构。
 
 
-      When to include design.md (create only if any apply):
+      按 template 各节填写内容约束：
 
-      - Cross-cutting change (multiple services/modules) or new architectural
-      pattern
+      - **## 1. 技术方案概述 (How)**：如何实现 spec 规格；关键技术选型与架构说明；
+        可含 ASCII/代码块示意数据流，但不写逐行实现。
 
-      - New external dependency or significant data model changes
+      - **## 2. 存储与数据流设计**：填写数据库/表结构变更（含 DDL 或字段说明）、
+        缓存策略（无则写「本次不使用缓存」及理由）。
 
-      - Security, performance, or migration complexity
+      - **## 3. 接口定义 (API Design)**：对内/对外接口；Java 项目可写接口签名、
+        配置项、record 定义，REST 项目按 template 示例写路径与 JSON。
 
-      - Ambiguity that benefits from technical decisions before coding
+      - **## 技术方案对比**：MUST 提供 2-3 个方案（方案 A/B/C），每项含技术栈、
+        优劣势、适合场景、预估工作量；在 **### 建议** 中给出推荐及理由。
 
-
-      Sections:
-
-      - **Context**: Background, current state, constraints, stakeholders
-
-      - **Goals / Non-Goals**: What this design achieves and explicitly excludes
-
-      - **Decisions**: Key technical choices with rationale (why X over Y?).
-      Include alternatives considered for each decision.
-
-      - **Risks / Trade-offs**: Known limitations, things that could go wrong.
-      Format: [Risk] → Mitigation
-
-      - **Migration Plan**: Steps to deploy, rollback strategy (if applicable)
-
-      - **Open Questions**: Outstanding decisions or unknowns to resolve
+      - **# 边界**：遵守 template 列出的约束（方案数量、复杂度匹配项目规模等）。
 
 
-      Focus on architecture and approach, not line-by-line implementation.
-
-      Reference the proposal for motivation and specs for requirements.
-
-
-      Good design docs explain the "why" behind technical decisions.
+      背景、目标/非目标、风险、迁移、待决问题等内容 MUST 写入上述 template 章节
+      内（如概述、方案对比、存储设计），勿另起与 template 平级的英文章节。
     requires:
       - proposal
   - id: tasks
@@ -189,51 +101,27 @@ artifacts:
     description: Implementation checklist with trackable tasks
     template: tasks.md
     instruction: >
-      Create the task list that breaks down the implementation work.
+      创建实现任务清单。**文档结构 MUST 严格遵循 template（tasks.md）**，保留
+      `## 任务清单`、`### 准则`、`### N. **Task N**`、`- **目标**`、
+      `- [ ] X.Y [层级标签] …`、`- **摘要：涉及文件**` 等结构，不得改用
+      `## 1. Setup` 等英文 OpenSpec 默认分组，不得在末尾用全局「总结：累计涉及文件」
+      替代每个 Task 的文件摘要。
 
 
-      **IMPORTANT: Follow the template below exactly.** The apply phase parses
+      内容约束：
 
-      checkbox format to track progress. Tasks not using `- [ ]` won't be
-      tracked.
+      - **### 准则**：保留 template 含义，可按本次 change 微调表述，但不得删除
+        checkbox 格式要求与 MECE/分层拆分原则。
 
+      - **Task 拆分**：按 数据层 → 接口层 → 业务层 → 测试 顺序组织子任务；
+        每个 Task 为可独立提交的原子变更（约 3–5 个文件）；每个子任务 MUST 为
+        `- [ ] X.Y [层级标签] 描述`（apply 追踪依赖此格式）；层级标签从
+        前置条件/数据层/接口层/业务层/测试中按实际选取，勿机械套用 1.1/1.2/1.3 固定语义。
 
-      Guidelines:
+      - **摘要**：每个 Task 末尾 MUST 有 `- **摘要：涉及文件**` 列表。
 
-      - Group related tasks under ## numbered headings
-
-      - Each task MUST be a checkbox: `- [ ] X.Y Task description`
-
-      - Tasks should be small enough to complete in one session
-
-      - Order tasks by dependency (what must be done first?)
-
-
-      Example:
-
-      ```
-
-      ## 1. Setup
-
-
-      - [ ] 1.1 Create new module structure
-
-      - [ ] 1.2 Add dependencies to package.json
-
-
-      ## 2. Core Implementation
-
-
-      - [ ] 2.1 Implement data export function
-
-      - [ ] 2.2 Add CSV formatting utilities
-
-      ```
-
-
-      Reference specs for what needs to be built, design for how to build it.
-
-      Each task should be verifiable - you know when it's done.
+      - **范围**：不得偏离 specs/design；参考 specs 定做什么，design 定怎么做；
+        每项子任务可独立验证完成状态。
     requires:
       - specs
       - design

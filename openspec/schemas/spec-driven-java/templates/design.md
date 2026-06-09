@@ -1,19 +1,44 @@
-## Context
+## 1. 技术方案概述 (How)
+- 简述如何实现 Spec 中定义的规格。
+- 关键技术选型或架构调整说明。
 
-<!-- Background and current state -->
+## 2. 存储与数据流设计
+- **数据库/表结构变更**：
+- **缓存策略**：
 
-## Goals / Non-Goals
+## 3. 接口定义 (API Design)
+定义相关的对内/对外接口：
+- **接口路径**: `[POST] /api/v1/example`
+- **请求参数**: 
+  ```json
+  {
+    "id": "string"
+  }
+  ```
+- **响应参数**:
+  ```json
+  {
+    "code": 0,
+    "data": {}
+  }
+  ```
 
-**Goals:**
-<!-- What this design aims to achieve -->
+## 技术方案对比
 
-**Non-Goals:**
-<!-- What is explicitly out of scope -->
+### 方案 A：[名称]
+- 技术栈：[具体技术]
+- 优势：[1-2 条]
+- 劣势：[1-2 条]
+- 适合场景：[什么情况下选这个]
+- 预估工作量：[大致范围]
 
-## Decisions
+### 方案 B：[名称]
+...
 
-<!-- Key design decisions and rationale -->
+### 建议
+[说明推荐哪个方案及理由，但明确这是建议不是决定]
 
-## Risks / Trade-offs
-
-<!-- Known risks and trade-offs -->
+# 边界
+- 必须提供 2-3 个方案并分析利弊
+- 禁止在用户选定前开始实现
+- 架构复杂度必须匹配项目实际规模
