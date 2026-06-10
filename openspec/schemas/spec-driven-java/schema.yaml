@@ -14,17 +14,17 @@ artifacts:
 
       按 template 各节填写内容约束：
 
-      - **## 1.变更提案(Why)**：1-2 段说明问题或机会；填写「业务背景与价值」「预期收益」；
+      - **## 1. 业务提案 (Why)**：1-2 段说明问题或机会；填写「业务背景与价值」「预期收益」；
         聚焦 why，不写实现细节（how 属于 design.md）。
 
-      - **## 2.变更范围 (Scope)**：分别列出 In Scope / Out Scope；
+      - **## 2. 变更范围 (Scope)**：分别列出 In Scope / Out Scope；
         填写「### 非功能性需求 (NFR)」，明确性能、可靠性和安全要求；
-        在「### 新功能变更」下用 kebab-case 列出每个新 capability（每个对应
-        `specs/<name>/spec.md`）；在「### 已有功能变更」下列出需 delta spec 的
+        在「### 新功能变更 (New Capabilities)」下用 kebab-case 列出每个新 capability（每个对应
+        `specs/<name>/spec.md`）；在「### 已有功能变更 (Delta Capabilities)」下列出需 delta spec 的
         已有 capability（查 `openspec/specs/`），无则写「无」；**BREAKING** 变更须
         在 In Scope 中显式标注。
 
-      - **## 3.系统影响点**：填写依赖模块与兼容性说明。
+      - **## 3. 系统影响点**：填写依赖模块与兼容性说明。
 
 
       Capabilities 列表是 proposal 与 specs 的契约：列出的每个 capability 在 specs
@@ -48,21 +48,19 @@ artifacts:
 
       - **### 需求**: 填写 capability 中文名称。
 
-      - **#### 1. 目标与范围**：一句话描述 + 复杂度标记（🟢/🟡/🔴）；
-        在 **##### 1.1 Delta 增删改规范** 中标注变更类型（新增/修改/删除/废弃），
+      - **### 1. 目标与变更规范**：一句话描述 + 复杂度标记（🟢/🟡/🔴）；
+        在 **Delta 增删改规范** 中标注变更类型（新增/修改/删除/废弃），
         修改已有 spec 时 MUST 写完整更新内容（不可只写 diff 片段）；
         删除/废弃 MUST 含 Reason 与 Migration；
-        在 **##### 1.2 不做清单** 中列出明确排除项。
 
-      - **#### 2. 业务场景定义 (What)**：使用 BDD (Given/When/Then) 格式描述 Happy Path 与 Edge Cases；
-        每个场景用 **##### [场景名]**，含前置条件、触发事件、预期结果和异常处理。
+      - **### 2. 业务场景定义 (What)**：使用 BDD (Given/When/Then) 格式描述 Happy Path 与 Edge Cases；
+        每个场景用 **#### 场景: [场景名]**，含前置条件、触发事件、预期结果和异常处理。
 
-      - **#### 3. 验收标准 (Acceptance Criteria)**：每条 MUST 使用 EARS 语法的 5 种标准模式之一
+      - **### 3. 验收标准 (Acceptance Criteria)**：每条 MUST 使用 EARS 语法的 5 种标准模式之一
        （Ubiquitous, Event-driven, State-driven, Unwanted behavior, Optional feature）；
         normative 用语用 SHALL/MUST；每条验收标准对应一个可测试场景。
 
-
-      Archive 兼容：Delta 信息写在「##### 1.1 Delta 增删改规范」内，勿另起
+      Archive 兼容：Delta 信息写在「Delta 增删改规范」内，勿另起
       `## ADDED Requirements` 顶层章节。
     requires:
       - proposal
@@ -78,21 +76,23 @@ artifacts:
 
       按 template 各节填写内容约束：
 
-      - **## 1. 技术方案概述 (How)**：如何实现 spec 规格；关键技术选型与架构说明；
+      - **## 1. 代码现状分析 (Current State)**：必须有代码出处（文件路径 + 类名/方法名），说明当前代码执行链路与风险。
+
+      - **## 2. 技术方案概述 (How)**：如何实现 spec 规格；关键技术选型与架构说明；
         可含 ASCII/代码块示意数据流，但不写逐行实现。
 
-      - **## 2. 存储与数据流设计**：填写数据库/表结构变更（含 DDL 或字段说明）、
+      - **## 3. 存储与数据流设计**：填写数据库/表结构变更（含 DDL 或字段说明）、
         缓存策略（无则写「本次不使用缓存」及理由）。
 
-      - **## 3. 面向失败设计 (Design for Failure)**：明确降级策略、熔断机制、幂等性和重试策略。
+      - **## 4. 面向失败设计 (Design for Failure)**：明确降级策略、熔断机制、幂等性和重试策略。
 
-      - **## 4. 接口定义 (API Design)**：对内/对外接口；建议遵循 RFC 9457 标准设计错误响应；
+      - **## 5. 接口定义 (API Design)**：对内/对外接口；建议遵循 RFC 9457 标准设计错误响应；
         Java 项目可写接口签名、配置项、record 定义，REST 项目按 template 示例写路径与 JSON。
 
-      - **## 5. 技术方案对比 (ADR)**：MUST 提供 2-3 个方案（方案 A/B/C），每项含技术栈、
+      - **## 6. 技术方案对比 (ADR)**：MUST 提供 2-3 个方案（方案 A/B/C），每项含技术栈、
         优劣势、适合场景、预估工作量；在 **### 建议与架构决策** 中给出推荐，并记录 Rationale 和 Trade-offs。
 
-      - **# 边界**：遵守 template 列出的约束（方案数量、复杂度匹配项目规模等）。
+      - **# 约束与边界**：遵守 template 列出的约束（方案数量、复杂度匹配项目规模等）。
 
 
       背景、目标/非目标、风险、迁移、待决问题等内容 MUST 写入上述 template 章节

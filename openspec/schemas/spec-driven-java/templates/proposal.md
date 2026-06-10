@@ -1,34 +1,38 @@
-## 1.变更提案(Why)
+# 变更提案 (Proposal)
 
-为什么做 + 做完后的效果（可验证的结果描述）
+> **用途**：说明为什么要做这个变更（Why），以及变更的范围（Scope）和影响。
 
-- **业务背景与价值**：为什么需要做这个变更？
-- **预期收益**：上线后能带来什么业务或技术指标提升？
+## 1. 业务提案 (Why)
 
-## 2.变更范围 (Scope)
+> **AI 指令**: Research → 逐个提问（一次只问一个，给选项+推荐）→ YAGNI 裁剪。聚焦 Why，不写实现细节。
 
-- **In Scope (本次包含)**：明确本次实施的功能点。
-- **Out of Scope (本次不含)**：明确本次不做的事情，避免需求蔓延。
+- **业务背景与价值**：为什么需要做这个变更？解决什么痛点？
+- **预期收益**：上线后能带来什么业务或技术指标提升？（需提供可验证的结果描述）
+
+## 2. 变更范围 (Scope)
+
+> **AI 指令**: 必须明确定义【Out of Scope(不做事项)】，防止需求蔓延(Scope Creep)。
+
+- **In Scope (本次包含)**：明确本次实施的功能点。如果是 BREAKING 变更，必须显式标注。
+- **Out of Scope (本次不含)**：明确本次不做的事情。
+
+### 新功能变更 (New Capabilities)
+<!-- 引入的新功能。每个新功能对应一个 specs/<name>/spec.md 文件。使用 kebab-case 命名。 -->
+- `<name>`: [功能简述]
+
+### 已有功能变更 (Delta Capabilities)
+<!-- 需求发生变更的已有功能。每个变更对应一个 delta spec 文件。无则写「无」。 -->
+- `<existing-name>`: [变更简述]
 
 ### 非功能性需求 (NFR)
+
+> **AI 指令**: 必须包含【非功能性需求(NFR)】评估，如未提及 QPS/TPS 预估和 P99 延迟要求，请向用户提问获取。
+
 - **性能要求**：[如 QPS 预估、p99 延迟要求等]
 - **可靠性要求**：[如 可用性 SLA、数据一致性级别（强一致 vs 最终一致）等]
 - **安全与合规**：[如 敏感数据脱敏、审计日志等]
 
-### 新功能变更
-<!-- Capabilities being introduced. Replace <name> with kebab-case identifier (e.g., user-auth, data-export, api-rate-limiting). Each creates specs/<name>/spec.md -->
-
-- `<name>`:
-
-### 已有功能变更
-<!-- Existing capabilities whose REQUIREMENTS are changing (not just implementation).
-     Only list here if spec-level behavior changes. Each needs a delta spec file.
-     Use existing spec names from openspec/specs/. Leave empty if no requirement changes. -->
-
-- `<existing-name>`:
-
-## 3.系统影响点
+## 3. 系统影响点
 
 - **依赖模块**：哪些上下游模块会受到影响？
 - **兼容性**：是否存在旧数据兼容、API 兼容问题？
-

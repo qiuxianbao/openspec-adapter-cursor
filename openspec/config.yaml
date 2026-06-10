@@ -1,20 +1,20 @@
 schema: spec-driven-java
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+# Project context — 由 /opsx-init-ctx 从 openspec/context/ 同步生成
+# OpenSpec CLI 将此字段注入所有 artifact 的 <project_context> 标签（上限 50KB）
+# 源文件（可独立编辑，init-ctx 会增量合并后回写此处）：
+#   - openspec/context/project-context.md  （工程侧）
+#   - openspec/context/domain.md           （业务侧）
+#
+# 首次使用前请执行 /opsx-init-ctx
+# context: |
+#   （init-ctx 自动填充）
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+# Per-artifact rules — key 必须为 schema 中的 artifact ID
+rules:
+  design:
+    - "优先使用项目内已有的 Util 类和 Maven 依赖，绝不允许私自引入新的三方依赖，除非在 design 中已通过。"
+    - "必须编写具有业务语义的异常处理，禁止直接 catch(Exception e) 然后吞掉。"
+  tasks:
+    - "验证与自动修复的闭环最多只能执行 3 轮; 3 轮后仍有 CRITICAL 错误必须停止并等待人工介入。"
+    - "验证功能正确性的同时，必须 Review 是否符合 design.md 中的架构决策。"

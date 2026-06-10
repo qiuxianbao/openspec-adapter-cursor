@@ -29,7 +29,9 @@ When ready to implement, run /opsx:apply
    Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
    > "What change do you want to work on? Describe what you want to build or fix."
 
-   From their description, derive a name using the format: {add/delete/update}-{功能}-{当前日期} (e.g., "add-mq-send-20260608").
+   From their description, derive a name using the format: {变更类型}-{Delta}-{需求名称}-{YYYYMMDD}，示例如下：
+   - 开发场景: 该阶段的第 2 次微调或追加, 命名为： Feature-D02-AddChargingReservationOrder-20260609
+   - 重构场景：重构需求的第 1 次基线代码提交或首个开发分支: Refactor-D01-ChargeReserveOrder-20260609
 
    **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
 

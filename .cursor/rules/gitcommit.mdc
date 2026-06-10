@@ -1,0 +1,36 @@
+---
+description: 提交代码规范
+globs: openspec/**/*
+alwaysApply: false
+---
+
+# 代码提交规范 (Git Commit Style)
+
+请遵循 Conventional Commits 规范。
+
+## 格式
+`<type>(<scope>): <subject>`
+
+## 常见的 Type
+- `feat`: 新增功能 (Feature)
+- `fix`: 修复 Bug
+- `docs`: 文档修改
+- `style`: 代码格式修改（不影响运行逻辑）
+- `refactor`: 重构（既非新增功能也非修复Bug）
+- `perf`: 性能优化
+- `test`: 测试用例增删改
+- `chore`: 构建系统或辅助工具的变更
+
+## 示例
+- `feat(auth): 新增用户登录接口`
+- `fix(db): 修复并发写入时的脏读问题`
+
+
+## 禁止操作
+- 不得删除已有测试文件
+- 不得直接修改 main/master 分支
+- 不得修改 .env 文件
+- 不得在没有测试的情况下提交新功能
+
+## 详细规则
+细则放在 .claude/rules/ 目录下，按路径匹配加载。
